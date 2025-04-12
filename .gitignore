@@ -1,36 +1,62 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
-# dependencies
-node_modules/
+# Testing
+/coverage
 
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
+# Production build outputs
+/.svelte-kit
+/build
+/dist
+.output
+.vercel
+.netlify
+.wrangler
 
-# Native
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
+# Environment variables
+.env
+.env.*
+!.env.example
+!.env.test
 
-# Metro
-.metro-health-check*
+# IDE and editor files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.cursor
+*.sw?
 
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
+# OS generated files
 .DS_Store
-*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# local env files
-.env*.local
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
-# typescript
-*.tsbuildinfo
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
