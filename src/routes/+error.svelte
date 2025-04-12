@@ -1,13 +1,18 @@
-<script>
+<script lang="ts">
     import { page } from '$app/stores';
 </script>
 
-<div class="flex min-h-screen items-center justify-center">
-    <div class="text-center">
-        <h1 class="text-4xl font-bold mb-4">
+<div class="flex min-h-screen items-center justify-center bg-gray-50">
+    <div class="text-center p-8 rounded-lg shadow-lg bg-white">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
             {$page.status}: {$page.error?.message || 'Something went wrong'}
         </h1>
-        <p class="mb-4">We're sorry, but something went wrong.</p>
-        <a href="/" class="text-blue-500 hover:text-blue-700">Go back home</a>
+        <p class="mb-6 text-gray-600">We apologize for the inconvenience.</p>
+        <a 
+            href="/"
+            class="inline-block px-6 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+        >
+            Go back home
+        </a>
     </div>
 </div> 
