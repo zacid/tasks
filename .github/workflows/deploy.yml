@@ -41,13 +41,28 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
+      - name: Debug
+        run: |
+          if [ -n "$VITE_SUPABASE_URL" ]; then
+            echo "VITE_SUPABASE_URL is set"
+          else
+            echo "VITE_SUPABASE_URL is NOT set"
+          fi
+          if [ -n "$VITE_SUPABASE_ANON_KEY" ]; then
+            echo "VITE_SUPABASE_ANON_KEY is set"
+          else
+            echo "VITE_SUPABASE_ANON_KEY is NOT set"
+          fi
         env:
-          NODE_ENV: production
-          # Explicitly set environment variables for the build step
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Build
+        env:
+          NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: npm run build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
