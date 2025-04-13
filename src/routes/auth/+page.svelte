@@ -2,6 +2,7 @@
     import { supabase } from '$lib/supabase';
     import { goto } from '$app/navigation';
     import { user } from '$lib/stores/auth';
+    import { base } from '$app/paths';
 
     let email = '';
     let password = '';
@@ -12,7 +13,7 @@
 
     // Redirect if already logged in
     $: if ($user) {
-        goto('/');
+        goto(`${base}/`);
     }
 
     async function handleAuth(e: SubmitEvent) {
@@ -36,7 +37,7 @@
                 });
                 if (signInError) throw signInError;
                 if (data.user) {
-                    goto('/');
+                    goto(`${base}/`);
                 }
             }
         } catch (e: any) {
@@ -57,7 +58,7 @@
                 <p class="text-cyan-600 mt-2">// {isSignUp ? 'Sign up to start managing tasks' : 'Sign in to continue'}</p>
             </div>
             <button 
-                on:click={() => goto('/')}
+                on:click={() => goto(`${base}/`)}
                 class="text-cyan-400 hover:text-cyan-300 transition-colors"
             >
                 ← Back
