@@ -3,6 +3,7 @@
     import { settings, updateSettings } from '$lib/stores/settings';
     import { supabase } from '$lib/supabase';
     import { goto } from '$app/navigation';
+    import { base } from '$app/paths';
     import { onMount } from 'svelte';
 
     let taskAgeDays = $settings.task_age_days;
@@ -11,7 +12,7 @@
 
     onMount(() => {
         if (!$user) {
-            goto('/');
+            goto(`${base}/`);
         }
     });
 
@@ -31,7 +32,7 @@
 
     async function handleSignOut() {
         await supabase.auth.signOut();
-        goto('/');
+        goto(`${base}/`);
     }
 </script>
 
@@ -45,7 +46,7 @@
                 <p class="text-cyan-600 mt-2">// Customize your task management</p>
             </div>
             <button 
-                on:click={() => goto('/')}
+                on:click={() => goto(`${base}/`)}
                 class="text-cyan-400 hover:text-cyan-300 transition-colors"
             >
                 ← Back

@@ -6,6 +6,7 @@
   import { user } from '$lib/stores/auth';
   import { settings } from '$lib/stores/settings';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
 
   let tasks: TaskType[] = [];
   let archivedTasks: TaskType[] = [];
@@ -124,6 +125,10 @@
   $: sortedTasks = tasks.sort(sortByAgeAndDate);
   $: sortedArchivedTasks = archivedTasks.sort(sortByDate);
   $: sortedCompletedTasks = completedTasks.sort((a, b) => sortByDate(a, b, 'completed_at'));
+
+  function handleNavigation(path: string) {
+    goto(`${base}${path}`);
+  }
 </script>
 
 <div class="min-h-screen p-6 font-mono bg-slate-900">
@@ -136,14 +141,14 @@
         </h1>
         {#if $user}
           <button 
-            on:click={() => goto('/settings')}
+            on:click={() => handleNavigation('/settings')}
             class="text-cyan-400 hover:text-cyan-300 transition-colors"
           >
             ⚙️ Settings
           </button>
         {:else}
           <button 
-            on:click={() => goto('/auth')}
+            on:click={() => handleNavigation('/auth')}
             class="text-cyan-400 hover:text-cyan-300 transition-colors"
           >
             Sign In
@@ -259,7 +264,7 @@
             </ul>
           </div>
           <button 
-            on:click={() => goto('/auth')}
+            on:click={() => handleNavigation('/auth')}
             class="bg-cyan-600 hover:bg-cyan-500 text-slate-900 font-medium px-6 py-2 rounded transition-colors"
           >
             Get Started
