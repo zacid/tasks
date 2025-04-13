@@ -1,18 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Define types for our environment variables
-declare global {
-    interface ImportMetaEnv {
-        readonly VITE_SUPABASE_URL: string
-        readonly VITE_SUPABASE_ANON_KEY: string
-    }
-}
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY must be set')
+    throw new Error('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables are required')
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
