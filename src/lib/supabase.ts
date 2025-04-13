@@ -1,13 +1,20 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY
+// Handle both SSR and client-side environments
+const supabaseUrl = process.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY
 
+// During development or client-side, don't throw if env vars are missing
 if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables are required')
+    if (process.env.NODE_ENV === 'development') {
+        console.warn('Missing Supabase environment variables')
+    }
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(
+    supabaseUrl || '',
+    supabaseAnonKey || ''
+)
 
 export type Task = {
     id: string
