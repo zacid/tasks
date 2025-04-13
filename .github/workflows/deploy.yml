@@ -42,7 +42,7 @@ jobs:
           NODE_ENV: production
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-          BASE_PATH: '/${{ github.event.repository.name }}'
+          BASE_PATH: '/tasks'
         run: npm run build
 
       - name: Upload Artifacts
