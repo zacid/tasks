@@ -81,13 +81,20 @@
             on:keydown={handleKeyDown}
             on:blur={handleSave}
             class="flex-1 bg-slate-700/50 text-cyan-300 px-2 py-1 rounded border border-cyan-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-            autofocus
         />
     {:else}
-        <span 
-            class="text-cyan-300 cursor-pointer hover:text-cyan-200" 
+        <button 
+            type="button"
+            class="text-left text-cyan-300 hover:text-cyan-200 focus:outline-none focus:ring-1 focus:ring-cyan-500 rounded px-1"
             on:click={handleEdit}
-        >{task.content}</span>
+            on:keydown={event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleEdit();
+                }
+            }}
+            disabled={isCompleted}
+        >{task.content}</button>
     {/if}
     <div class="flex items-center space-x-4">
         <span class="text-sm {isWarning ? 'text-yellow-600' : 'text-cyan-600'}">{ageLabel}</span>
