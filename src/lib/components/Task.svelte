@@ -2,6 +2,7 @@
     import type { Task } from '$lib/supabase';
     import { createEventDispatcher } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { supabase } from '$lib/supabase';
 
     export let task: Task;
     export let isWarning = false;
@@ -9,9 +10,44 @@
     export let isCompleted = false;
 
     const dispatch = createEventDispatcher();
+    let isEditing = false;
+    let editContent = task.content;
 
     function handleComplete() {
         dispatch('complete', task.id);
+    }
+
+    async function handleEdit() {
+        if (!isCompleted) {
+            isEditing = true;
+            editContent = task.content;
+        }
+    }
+
+    async function handleSave() {
+        if (editContent.trim() === '') return;
+        
+        try {
+            const { error } = await supabase
+                .from('tasks')
+                .update({ content: editContent.trim() })
+                .eq('id', task.id);
+
+            if (error) throw error;
+            task.content = editContent.trim();
+            isEditing = false;
+        } catch (error) {
+            console.error('Error updating task:', error);
+        }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === 'Enter') {
+            handleSave();
+        } else if (event.key === 'Escape') {
+            isEditing = false;
+            editContent = task.content;
+        }
     }
 
     function calculateAge(createdAt: string): number {
@@ -38,7 +74,21 @@
     p-4 rounded-r-md transition-all"
     transition:fade
 >
-    <span class="text-cyan-300">{task.content}</span>
+    {#if isEditing}
+        <input
+            type="text"
+            bind:value={editContent}
+            on:keydown={handleKeyDown}
+            on:blur={handleSave}
+            class="flex-1 bg-slate-700/50 text-cyan-300 px-2 py-1 rounded border border-cyan-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+            autofocus
+        />
+    {:else}
+        <span 
+            class="text-cyan-300 cursor-pointer hover:text-cyan-200" 
+            on:click={handleEdit}
+        >{task.content}</span>
+    {/if}
     <div class="flex items-center space-x-4">
         <span class="text-sm {isWarning ? 'text-yellow-600' : 'text-cyan-600'}">{ageLabel}</span>
         {#if !isCompleted}
