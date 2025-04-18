@@ -22,10 +22,9 @@
         
         try {
             await updateSettings({ task_age_days: taskAgeDays });
-            error = 'Settings saved successfully!';
+            goto(`${base}/`);
         } catch (e) {
             error = 'Failed to save settings';
-        } finally {
             saving = false;
         }
     }

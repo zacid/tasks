@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Task } from '$lib/supabase';
     import { createEventDispatcher } from 'svelte';
-    import { fade } from 'svelte/transition';
     import { supabase } from '$lib/supabase';
 
     export let task: Task;
@@ -72,7 +71,6 @@
     class="flex items-center justify-between bg-slate-800/30 hover:bg-slate-800/50 border-l-2 
     {isCompleted ? 'border-green-600 opacity-50' : isWarning ? 'border-yellow-600' : 'border-cyan-600'} 
     p-4 rounded-r-md transition-all"
-    transition:fade
 >
     {#if isEditing}
         <input

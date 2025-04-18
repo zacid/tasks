@@ -142,9 +142,10 @@
         {#if $user}
           <button 
             on:click={() => handleNavigation('/settings')}
-            class="text-cyan-400 hover:text-cyan-300 transition-colors"
+            class="text-cyan-400 hover:text-cyan-300 transition-colors text-2xl"
+            title="Settings"
           >
-            ⚙️ Settings
+            ⚙️
           </button>
         {:else}
           <button 
