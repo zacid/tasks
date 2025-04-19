@@ -9,6 +9,8 @@
     let taskAgeDays = $settings.task_age_days;
     let saving = false;
     let error = '';
+    let displayName = $user?.user_metadata?.full_name || $user?.user_metadata?.name || 'User';
+    let userEmail = $user?.email;
 
     onMount(() => {
         if (!$user) {
@@ -52,41 +54,65 @@
             </button>
         </header>
 
-        <div class="bg-slate-800/30 p-6 rounded-lg border border-cyan-800">
-            <div class="space-y-6">
-                <div>
-                    <label for="taskAge" class="block text-cyan-400 mb-2">Task Age Limit (days)</label>
-                    <input 
-                        type="number" 
-                        id="taskAge"
-                        bind:value={taskAgeDays}
-                        min="1"
-                        max="30"
-                        class="w-full bg-slate-800/50 border border-cyan-700 rounded-md p-2 text-cyan-300 placeholder-cyan-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-                    >
-                    <p class="text-cyan-600 text-sm mt-1">Tasks older than this will be archived</p>
+        <div class="space-y-6">
+            <!-- User Profile Section -->
+            <div class="bg-slate-800/30 p-6 rounded-lg border border-cyan-800">
+                <div class="flex items-center space-x-4">
+                    {#if $user?.user_metadata?.avatar_url}
+                        <img 
+                            src={$user.user_metadata.avatar_url} 
+                            alt="Profile" 
+                            class="w-16 h-16 rounded-full border-2 border-cyan-600"
+                        />
+                    {:else}
+                        <div class="w-16 h-16 rounded-full bg-cyan-600 flex items-center justify-center text-2xl text-slate-900 font-bold">
+                            {displayName[0].toUpperCase()}
+                        </div>
+                    {/if}
+                    <div>
+                        <h2 class="text-xl font-bold text-cyan-400">{displayName}</h2>
+                        <p class="text-cyan-600">{userEmail}</p>
+                    </div>
                 </div>
+            </div>
 
-                {#if error}
-                    <p class="text-sm" class:text-red-400={error.includes('Failed')} class:text-green-400={error.includes('success')}>
-                        {error}
-                    </p>
-                {/if}
+            <!-- Settings Section -->
+            <div class="bg-slate-800/30 p-6 rounded-lg border border-cyan-800">
+                <div class="space-y-6">
+                    <div>
+                        <label for="taskAge" class="block text-cyan-400 mb-2">Task Age Limit (days)</label>
+                        <input 
+                            type="number" 
+                            id="taskAge"
+                            bind:value={taskAgeDays}
+                            min="1"
+                            max="30"
+                            class="w-full bg-slate-800/50 border border-cyan-700 rounded-md p-2 text-cyan-300 placeholder-cyan-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                        >
+                        <p class="text-cyan-600 text-sm mt-1">Tasks older than this will be archived</p>
+                    </div>
 
-                <div class="flex justify-between items-center pt-4 border-t border-slate-700">
-                    <button 
-                        on:click={handleSignOut}
-                        class="text-red-400 hover:text-red-300 transition-colors"
-                    >
-                        Sign Out
-                    </button>
-                    <button 
-                        on:click={handleSave}
-                        disabled={saving}
-                        class="bg-cyan-600 hover:bg-cyan-500 disabled:bg-cyan-800 disabled:cursor-not-allowed text-slate-900 px-4 py-2 rounded transition-colors"
-                    >
-                        {saving ? 'Saving...' : 'Save Settings'}
-                    </button>
+                    {#if error}
+                        <p class="text-sm" class:text-red-400={error.includes('Failed')} class:text-green-400={error.includes('success')}>
+                            {error}
+                        </p>
+                    {/if}
+
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-700">
+                        <button 
+                            on:click={handleSignOut}
+                            class="text-red-400 hover:text-red-300 transition-colors"
+                        >
+                            Sign Out
+                        </button>
+                        <button 
+                            on:click={handleSave}
+                            disabled={saving}
+                            class="bg-cyan-600 hover:bg-cyan-500 disabled:bg-cyan-800 disabled:cursor-not-allowed text-slate-900 px-4 py-2 rounded transition-colors"
+                        >
+                            {saving ? 'Saving...' : 'Save Settings'}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
