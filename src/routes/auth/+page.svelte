@@ -24,9 +24,7 @@
             const { error: signInError } = await supabase.auth.signInWithOAuth({
                 provider: 'github',
                 options: {
-                    redirectTo: window.location.origin.includes('localhost') 
-                        ? `${window.location.origin}${base}/auth/callback`
-                        : 'https://zacid.github.io/tasks/auth/callback',
+                    redirectTo: window.location.origin + base + '/auth/callback',
                     scopes: 'user:email'
                 }
             });
